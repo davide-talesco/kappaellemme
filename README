@@ -1,0 +1,16 @@
+# Reasons
+An application that tracks KLM customer sentiments by subscribing to KLM public social feeds.
+
+# Design
+The application subscribe to KLM Public page feeds and for each notification
+
+## Facebook integration
+Configure a facebook App Web hook for KLM Page and define a callback URL where to send notification.
+Bind this service to the callback URL base API configured above.
+
+ie.
+callback URL: https://kappaellemme.tk/facebook/webhooks
+base API: https://kappaellemme.tk
+
+## Facebook Web hook handler
+Implement Web Hook handler as per https://developers.facebook.com/docs/graph-api/webhooks/getting-started

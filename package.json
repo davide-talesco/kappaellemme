@@ -1,0 +1,19 @@
+{
+  "name": "kappaellemme",
+  "version": "1.0.0",
+  "description": " a service that monitors KLM public feeds sentiment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "klmv",
+    "sentiment"
+  ],
+  "author": "davide talesco",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^17.4.0",
+    "pino": "^4.16.1"
+  }
+}
