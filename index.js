@@ -4,7 +4,7 @@ const Hapi = require('hapi');
 const pino = require('pino')();
 
 const server = Hapi.server({
-  port: 3000,
+  port: 3001,
   host: '0.0.0.0'
 });
 
@@ -19,6 +19,20 @@ server.route({
   path: '/klm/facebook',
   handler: facebookNotificationHanlder
 });
+
+const preResponse = function (request, h) {
+
+  const response = request.response;
+  // if is an error log it
+  if (response.isBoom) {
+    pino.info(response);
+  }
+
+  // Replace error with friendly HTML
+  return h.continue;
+};
+
+server.ext('onPreResponse', preResponse);
 
 const init = async () => {
 
@@ -37,7 +51,7 @@ init();
 
 function facebookVerificationHanlder(req, h){
   const challenge = req.query['hub.challenge'];
-  const verify_token = req.query['hub.verify_token'];
+  const verify_token = req.pippo.query['hub.verify_token'];
 
   pino.info({challenge, verify_token}, 'Received facebook verification request');
 
