@@ -10,13 +10,13 @@ const server = Hapi.server({
 
 server.route({
   method: 'GET',
-  path: '/facebook',
+  path: '/facebook/webhooks',
   handler: facebookVerificationHanlder
 });
 
 server.route({
   method: 'POST',
-  path: '/facebook',
+  path: '/facebook/webhooks',
   handler: facebookNotificationHanlder
 });
 

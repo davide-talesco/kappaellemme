@@ -9,8 +9,9 @@ Configure a facebook App Web hook for KLM Page and define a callback URL where t
 Bind this service to the callback URL base API configured above.
 
 ie.
-callback URL: https://kappaellemme.tk/facebook/webhooks
-base API: https://kappaellemme.tk
+callback URL: https://klmerda.tk/facebook/webhooks
+
+base API: https://klmerda.tk
 
 ## Facebook Web hook handler
 Implement Web Hook handler as per https://developers.facebook.com/docs/graph-api/webhooks/getting-started
