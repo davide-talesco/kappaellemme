@@ -21,7 +21,7 @@ server.route({
 });
 
 const onRequest = function(request, h){
-  pino.info(request.method, request.path, request.payload, request.params, request.query)
+  pino.info({request: request.method, path: request.path, payload: request.payload, params: request.params, query: request.query})
 
   return h.continue;
 };
