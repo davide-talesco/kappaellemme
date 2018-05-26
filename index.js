@@ -20,18 +20,24 @@ server.route({
   handler: facebookNotificationHanlder
 });
 
+const onRequest = function(request, h){
+  pino.info(request.method, request.path, request.payload, request.params, request.query)
+
+  return h.continue;
+};
+
 const preResponse = function (request, h) {
 
   const response = request.response;
   // if is an error log it
   if (response.isBoom) {
-    pino.info(response);
+    pino.info(response.output.payload);
   }
 
-  // Replace error with friendly HTML
   return h.continue;
 };
 
+server.ext('onRequest', onRequest);
 server.ext('onPreResponse', preResponse);
 
 const init = async () => {
