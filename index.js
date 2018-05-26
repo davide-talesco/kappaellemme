@@ -3,22 +3,37 @@
 const Hapi = require('hapi');
 const pino = require('pino')();
 const R = require('ramda');
+const Path = require('path');
 
 const server = Hapi.server({
   port: 3000,
-  host: '0.0.0.0'
+  host: '0.0.0.0',
+  routes: {
+    files: {
+      relativeTo: Path.join(__dirname, 'www')
+    }
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/privacy_policy.html',
+  handler: function (request, h) {
+
+    return h.file('privacy_policy.html');
+  }
 });
 
 server.route({
   method: 'GET',
   path: '/facebook/webhooks',
-  handler: facebookVerificationHanlder
+  handler: facebookVerificationHandler
 });
 
 server.route({
   method: 'POST',
   path: '/facebook/webhooks',
-  handler: facebookNotificationHanlder
+  handler: facebookNotificationHandler
 });
 
 const onRequest = function(request, h){
@@ -41,11 +56,22 @@ const preResponse = function (request, h) {
 server.ext('onRequest', onRequest);
 server.ext('onPreResponse', preResponse);
 
-const init = async () => {
+function facebookVerificationHandler(req, h){
+  const challenge = R.path(['query', 'hub.challenge'], req);
+  const verify_token = R.path(['query', 'hub.verify_token'], req);
 
-  await server.start();
+  pino.info({challenge, verify_token});
 
-  pino.info({msg: `Server running at: ${server.info.uri}`});
+  // TODO verify token
+  return challenge;
+};
+
+function facebookNotificationHandler(req, h){
+  const notification = R.path(['payload'], req);
+
+  pino.info(notification);
+
+  return h.close;
 };
 
 process.on('unhandledRejection', (err) => {
@@ -54,22 +80,12 @@ process.on('unhandledRejection', (err) => {
   process.exit(1);
 });
 
+const init = async () => {
+
+  await server.register(require('inert'));
+  await server.start();
+
+  pino.info({msg: `Server running at: ${server.info.uri}`});
+};
+
 init();
-
-function facebookVerificationHanlder(req, h){
-  const challenge = R.path(['query', 'hub.challenge'], req);
-  const verify_token = R.path(['query', 'hub.verify_token'], req);
-
-  pino.info({challenge, verify_token}, 'Received facebook verification request');
-
-  // TODO verify token
-  return challenge;
-};
-
-function facebookNotificationHanlder(req, h){
-  const message = req.payload;
-
-  pino.info(message, 'Received facebook Notification message');
-
-  return h.close;
-};
