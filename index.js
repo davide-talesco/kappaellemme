@@ -2,6 +2,7 @@
 
 const Hapi = require('hapi');
 const pino = require('pino')();
+const R = require('ramda');
 
 const server = Hapi.server({
   port: 3000,
@@ -56,8 +57,8 @@ process.on('unhandledRejection', (err) => {
 init();
 
 function facebookVerificationHanlder(req, h){
-  const challenge = req.query['hub.challenge'];
-  const verify_token = req.pippo.query['hub.verify_token'];
+  const challenge = R.path(['query', 'hub.challenge'], req);
+  const verify_token = R.path(['query', 'hub.verify_token'], req);
 
   pino.info({challenge, verify_token}, 'Received facebook verification request');
 
