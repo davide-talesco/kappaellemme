@@ -22,7 +22,7 @@ server.route({
 });
 
 const onRequest = function(request, h){
-  pino.info({request: request.method, path: request.path, payload: request.payload, params: request.params, query: request.query})
+  pino.info({request: request.method, path: request.path, payload: request.payload, params: request.params, query: request.query});
 
   return h.continue;
 };
@@ -32,7 +32,7 @@ const preResponse = function (request, h) {
   const response = request.response;
   // if is an error log it
   if (response.isBoom) {
-    pino.info(response.output.payload);
+    pino.info({stack: response.stack, payload: response.output.payload});
   }
 
   return h.continue;
@@ -50,7 +50,7 @@ const init = async () => {
 
 process.on('unhandledRejection', (err) => {
 
-  console.log(err);
+  pino.error(err);
   process.exit(1);
 });
 
