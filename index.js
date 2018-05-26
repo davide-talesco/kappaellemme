@@ -4,19 +4,19 @@ const Hapi = require('hapi');
 const pino = require('pino')();
 
 const server = Hapi.server({
-  port: 3001,
+  port: 3000,
   host: '0.0.0.0'
 });
 
 server.route({
   method: 'GET',
-  path: '/klm/facebook',
+  path: '/facebook',
   handler: facebookVerificationHanlder
 });
 
 server.route({
   method: 'POST',
-  path: '/klm/facebook',
+  path: '/facebook',
   handler: facebookNotificationHanlder
 });
 

@@ -2,7 +2,7 @@
 An application that tracks KLM customer sentiments by subscribing to KLM public social feeds.
 
 # Design
-The application subscribe to KLM Public page feeds and for each notification
+The application subscribe to KLM Public page feeds and for each notification log it to console.
 
 ## Facebook integration
 Configure a facebook App Web hook for KLM Page and define a callback URL where to send notification.
@@ -16,3 +16,5 @@ base API: https://kappaellemme.tk
 Implement Web Hook handler as per https://developers.facebook.com/docs/graph-api/webhooks/getting-started
 
 # Environment Variables
+
+The application listen on port 3000
