@@ -9,7 +9,7 @@ Configure a facebook App Web hook for KLM Page and define a callback URL where t
 Bind this service to the callback URL base API configured above.
 
 ie.
-callback URL: https://klmerda.tk/facebook/webhooks
+callback URL: https://klmerda.tk/facebook/webhooks 
 
 base API: https://klmerda.tk
 
